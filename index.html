@@ -1007,6 +1007,48 @@
         box-shadow: 0 5px 20px rgba(181, 137, 0, 0.5);
         transform: translateY(-1px);
       }
+
+      /* Главный заголовок (Навыки агента / Разработка Терминатора) */
+      .skills-header {
+        font-size: 2.2em;
+        font-weight: 700;
+        color: var(--accent);
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid var(--border);
+      }
+
+      /* Контейнер каждой главы */
+      .chapter-container {
+        margin-bottom: 40px;
+      }
+
+      /* Заголовок главы (меньше главного, но в том же стиле) */
+      .chapter-header {
+        font-size: 1.8em;
+        font-weight: 700;
+        color: var(--yellow);
+        text-align: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      /* Подгрид для карточек навыков внутри главы */
+      .perks-grid {
+        display: grid;
+        grid-template-columns: repeat(
+          auto-fill,
+          minmax(380px, 1fr)
+        ); /* как у тебя было в .skills-grid */
+        gap: 20px;
+      }
+
+      /* Убедись, что основной .skills-grid остаётся флексом/гридом только для глав */
+      #skillsGrid {
+        display: block; /* или flex column, чтобы главы шли друг под другом */
+      }
     </style>
   </head>
   <body>
@@ -1134,7 +1176,6 @@
         </div>
 
         <div class="skills-container">
-          <div class="skills-header">Навыки агента</div>
           <div class="skills-grid" id="skillsGrid">
             <!-- Skills will be populated here -->
           </div>
@@ -1247,174 +1288,181 @@
       const GAME_DATA = [
         {
           tabName: "Агенты",
+          treeTitle: "Навыки агента",
           costBase: 1,
-          maxLevel: 10,
+          maxLevelPerSkill: 10,
           skills: [
             {
-              id: "infiltration",
-              name: "Внедрение",
-              description:
-                "Искусство маскировки, манипуляции, убеждения, лжи, импровизации, ухода от вопросов и запугивания для проникновения в любые круги.",
-            },
-            {
-              id: "charisma",
-              name: "Харизма и эмпатия",
-              description:
-                "Чтение и управление эмоциями, создание доверия/привязанности, эмоциональное доминирование.",
-            },
-            {
-              id: "interrogation",
-              name: "Допрос и пытки",
-              description:
-                "Извлечение информации, ломание воли, перепрограммирование.",
-            },
-            {
-              id: "seduction",
-              name: "Искусство соблазна",
-              description:
-                "Мастерство интимного влияния: агент проникает в окружение цели через романтические или эротические отношения, завоёвывая полное доверие.",
-            },
-            {
-              id: "education",
-              name: "Образованность",
-              description:
-                "Общие знания о мире: от школьной программы до энциклопедических познаний в науках, культуре, экономике, механике, астрономии и т.д.",
-            },
-            {
-              id: "physical",
-              name: "Физическая подготовка",
-              description:
-                "Выносливость, сила, скорость, гибкость — базовая физическая форма.",
-            },
-            {
-              id: "resistance",
-              name: "Сопротивляемость",
-              description:
-                "Стойкость к боли, холоду, жаре, ядам, манипуляциям; повышенная прочность тела.",
-            },
-            {
-              id: "survival",
-              name: "Выживание в дикой природе",
-              description:
-                "Ориентирование, поиск пищи/воды, укрытие, выживание в экстремальных условиях.",
-            },
-            {
-              id: "stealth",
-              name: "Скрытность",
-              description:
-                "Бесшумное движение, маскировка, обход охраны и камер.",
-            },
-            {
-              id: "lockpicking",
-              name: "Взлом замков",
-              description:
-                "Открытие механических и электронных замков, сейфов.",
-            },
-            {
-              id: "hacking",
-              name: "Хакерство",
-              description: "Взлом сетей, компьютеров, систем безопасности.",
-            },
-            {
-              id: "driving",
-              name: "Вождение",
-              description:
-                "Управление транспортом от автомобилей до тяжёлой техники.",
-            },
-            {
-              id: "piloting",
-              name: "Пилотирование",
-              description:
-                "Способность агента к управлению воздушными транспортными средствами.",
-            },
-            {
-              id: "medicine",
-              name: "Медицина",
-              description:
-                "Первая помощь, лечение ран, хирургия, фармакология.",
-            },
-            {
-              id: "leadership",
-              name: "Лидерство",
-              description: "Командование отрядом, мотивация, тактика.",
-            },
-            {
-              id: "perception",
-              name: "Восприятие",
-              description:
-                "Улучшенные органы чувств: зрение, слух, чтение языка тела, обнаружение скрытых угроз.",
-            },
-            {
-              id: "reaction",
-              name: "Скорость реакции",
-              description: "Сверхчеловеческие рефлексы, уклонение от угроз.",
-            },
-            {
-              id: "intuition",
-              name: "Интуиция",
-              description:
-                '"Шестое чувство": предвидение угроз, возможностей и скрытых факторов.',
-            },
-            {
-              id: "firearms",
-              name: "Владение оружием (огнестрел)",
-              description:
-                "Стрельба из пистолетов, автоматов, снайперских винтовок.",
-            },
-            {
-              id: "unarmed",
-              name: "Бой без оружия",
-              description: "Рукопашный бой, захваты, удары.",
-            },
-            {
-              id: "shortBlades",
-              name: "Холодное оружие",
-              description: "Ножи, кинжалы, скрытые клинки.",
-            },
-            {
-              id: "longBlades",
-              name: "Длинное холодное оружие",
-              description: "Мечи, катаны, копья.",
-            },
-            {
-              id: "throwing",
-              name: "Метательное оружие",
-              description: "Сюрикэны, ножи, гранаты.",
-            },
-            {
-              id: "archery",
-              name: "Владение луком",
-              description: "Стрельба из лука/арбалета.",
-            },
-            {
-              id: "explosives",
-              name: "Работа со взрывчаткой",
-              description: "Изготовление, установка, обезвреживание бомб.",
-            },
-            {
-              id: "poisons",
-              name: "Работа с ядами и токсинами",
-              description: "Приготовление, введение, антидоты.",
-            },
-            {
-              id: "pickpocketing",
-              name: "Ручная кража",
-              description: "Карманные кражи, незаметное изъятие предметов.",
-            },
-            {
-              id: "mobility",
-              name: "Мобильность",
-              description: "Паркур, лазание по стенам, акробатика.",
-            },
-            {
-              id: "repair",
-              name: "Ремонт",
-              description: "Починка оружия, техники, электроники.",
-            },
-            {
-              id: "mentorship",
-              name: "Наставничество",
-              description: "Обучение других агентов, передача навыков.",
+              chapterTitle: "Общие навыки",
+              perks: [
+                {
+                  id: "infiltration",
+                  name: "Внедрение",
+                  description:
+                    "Искусство маскировки, манипуляции, убеждения, лжи, импровизации, ухода от вопросов и запугивания для проникновения в любые круги.",
+                },
+                {
+                  id: "charisma",
+                  name: "Харизма и эмпатия",
+                  description:
+                    "Чтение и управление эмоциями, создание доверия/привязанности, эмоциональное доминирование.",
+                },
+                {
+                  id: "interrogation",
+                  name: "Допрос и пытки",
+                  description:
+                    "Извлечение информации, ломание воли, перепрограммирование.",
+                },
+                {
+                  id: "seduction",
+                  name: "Искусство соблазна",
+                  description:
+                    "Мастерство интимного влияния: агент проникает в окружение цели через романтические или эротические отношения, завоёвывая полное доверие.",
+                },
+                {
+                  id: "education",
+                  name: "Образованность",
+                  description:
+                    "Общие знания о мире: от школьной программы до энциклопедических познаний в науках, культуре, экономике, механике, астрономии и т.д.",
+                },
+                {
+                  id: "physical",
+                  name: "Физическая подготовка",
+                  description:
+                    "Выносливость, сила, скорость, гибкость — базовая физическая форма.",
+                },
+                {
+                  id: "resistance",
+                  name: "Сопротивляемость",
+                  description:
+                    "Стойкость к боли, холоду, жаре, ядам, манипуляциям; повышенная прочность тела.",
+                },
+                {
+                  id: "survival",
+                  name: "Выживание в дикой природе",
+                  description:
+                    "Ориентирование, поиск пищи/воды, укрытие, выживание в экстремальных условиях.",
+                },
+                {
+                  id: "stealth",
+                  name: "Скрытность",
+                  description:
+                    "Бесшумное движение, маскировка, обход охраны и камер.",
+                },
+                {
+                  id: "lockpicking",
+                  name: "Взлом замков",
+                  description:
+                    "Открытие механических и электронных замков, сейфов.",
+                },
+                {
+                  id: "hacking",
+                  name: "Хакерство",
+                  description: "Взлом сетей, компьютеров, систем безопасности.",
+                },
+                {
+                  id: "driving",
+                  name: "Вождение",
+                  description:
+                    "Управление транспортом от автомобилей до тяжёлой техники.",
+                },
+                {
+                  id: "piloting",
+                  name: "Пилотирование",
+                  description:
+                    "Способность агента к управлению воздушными транспортными средствами.",
+                },
+                {
+                  id: "medicine",
+                  name: "Медицина",
+                  description:
+                    "Первая помощь, лечение ран, хирургия, фармакология.",
+                },
+                {
+                  id: "leadership",
+                  name: "Лидерство",
+                  description: "Командование отрядом, мотивация, тактика.",
+                },
+                {
+                  id: "perception",
+                  name: "Восприятие",
+                  description:
+                    "Улучшенные органы чувств: зрение, слух, чтение языка тела, обнаружение скрытых угроз.",
+                },
+                {
+                  id: "reaction",
+                  name: "Скорость реакции",
+                  description:
+                    "Сверхчеловеческие рефлексы, уклонение от угроз.",
+                },
+                {
+                  id: "intuition",
+                  name: "Интуиция",
+                  description:
+                    '"Шестое чувство": предвидение угроз, возможностей и скрытых факторов.',
+                },
+                {
+                  id: "firearms",
+                  name: "Владение оружием (огнестрел)",
+                  description:
+                    "Стрельба из пистолетов, автоматов, снайперских винтовок.",
+                },
+                {
+                  id: "unarmed",
+                  name: "Бой без оружия",
+                  description: "Рукопашный бой, захваты, удары.",
+                },
+                {
+                  id: "shortBlades",
+                  name: "Холодное оружие",
+                  description: "Ножи, кинжалы, скрытые клинки.",
+                },
+                {
+                  id: "longBlades",
+                  name: "Длинное холодное оружие",
+                  description: "Мечи, катаны, копья.",
+                },
+                {
+                  id: "throwing",
+                  name: "Метательное оружие",
+                  description: "Сюрикэны, ножи, гранаты.",
+                },
+                {
+                  id: "archery",
+                  name: "Владение луком",
+                  description: "Стрельба из лука/арбалета.",
+                },
+                {
+                  id: "explosives",
+                  name: "Работа со взрывчаткой",
+                  description: "Изготовление, установка, обезвреживание бомб.",
+                },
+                {
+                  id: "poisons",
+                  name: "Работа с ядами и токсинами",
+                  description: "Приготовление, введение, антидоты.",
+                },
+                {
+                  id: "pickpocketing",
+                  name: "Ручная кража",
+                  description: "Карманные кражи, незаметное изъятие предметов.",
+                },
+                {
+                  id: "mobility",
+                  name: "Мобильность",
+                  description: "Паркур, лазание по стенам, акробатика.",
+                },
+                {
+                  id: "repair",
+                  name: "Ремонт",
+                  description: "Починка оружия, техники, электроники.",
+                },
+                {
+                  id: "mentorship",
+                  name: "Наставничество",
+                  description: "Обучение других агентов, передача навыков.",
+                },
+              ],
             },
           ],
 
@@ -1849,206 +1897,217 @@
         },
         {
           tabName: "Терминатор",
+          treeTitle: "Разработка инфильтратора",
           costBase: 100,
-          maxLevel: 10,
+          maxLevelPerSkill: 10,
           skills: [
             {
-              id: "infiltration",
-              name: "Внедрение",
-              description:
-                "Искусство маскировки, манипуляции, убеждения, лжи, импровизации, ухода от вопросов и запугивания для проникновения в любые круги.",
+              chapterTitle: "Прошивка",
+              perks: [
+                {
+                  id: "infiltration",
+                  name: "Внедрение",
+                  description:
+                    "Искусство маскировки, манипуляции, убеждения, лжи, импровизации, ухода от вопросов и запугивания для проникновения в любые круги.",
+                },
+                {
+                  id: "charisma",
+                  name: "Харизма и эмпатия",
+                  description:
+                    "Чтение и управление эмоциями, создание доверия/привязанности, эмоциональное доминирование.",
+                },
+                {
+                  id: "interrogation",
+                  name: "Допрос и пытки",
+                  description:
+                    "Извлечение информации, ломание воли, перепрограммирование.",
+                },
+                {
+                  id: "seduction",
+                  name: "Искусство соблазна",
+                  description:
+                    "Мастерство интимного влияния: агент проникает в окружение цели через романтические или эротические отношения, завоёвывая полное доверие.",
+                },
+                {
+                  id: "education",
+                  name: "Образованность",
+                  description:
+                    "Общие знания о мире: от школьной программы до энциклопедических познаний в науках, культуре, экономике, механике, астрономии и т.д.",
+                },
+                {
+                  id: "survival",
+                  name: "Выживание в дикой природе",
+                  description:
+                    "Терминатор получает данные, такие как: ориентирование, поиск пищи/воды, укрытие, выживание в экстремальных условиях.",
+                },
+                {
+                  id: "stealth",
+                  name: "Скрытность",
+                  description:
+                    "Бесшумное движение, маскировка, обход охраны и камер.",
+                },
+                {
+                  id: "lockpicking",
+                  name: "Взлом замков",
+                  description:
+                    "Открытие механических и электронных замков, сейфов.",
+                },
+                {
+                  id: "hacking",
+                  name: "Хакерство",
+                  description: "Взлом сетей, компьютеров, систем безопасности.",
+                },
+                {
+                  id: "driving",
+                  name: "Вождение",
+                  description:
+                    "Управление транспортом от автомобилей до тяжёлой техники.",
+                },
+                {
+                  id: "piloting",
+                  name: "Пилотирование",
+                  description:
+                    "Способность агента к управлению воздушными транспортными средствами.",
+                },
+                {
+                  id: "medicine",
+                  name: "Медицина",
+                  description:
+                    "Первая помощь, лечение ран, хирургия, фармакология.",
+                },
+                {
+                  id: "leadership",
+                  name: "Лидерство",
+                  description: "Командование отрядом, мотивация, тактика.",
+                },
+                {
+                  id: "intuition",
+                  name: "Интуиция",
+                  description:
+                    "Обученная нейросеть способна предугадывать ближайшее будущее.",
+                },
+                {
+                  id: "firearms",
+                  name: "Владение оружием (огнестрел)",
+                  description:
+                    "Стрельба из пистолетов, автоматов, снайперских винтовок.",
+                },
+                {
+                  id: "unarmed",
+                  name: "Бой без оружия",
+                  description: "Рукопашный бой, захваты, удары.",
+                },
+                {
+                  id: "shortBlades",
+                  name: "Холодное оружие",
+                  description: "Ножи, кинжалы, скрытые клинки.",
+                },
+                {
+                  id: "longBlades",
+                  name: "Длинное холодное оружие",
+                  description: "Мечи, катаны, копья.",
+                },
+                {
+                  id: "throwing",
+                  name: "Метательное оружие",
+                  description: "Сюрикэны, ножи, гранаты.",
+                },
+                {
+                  id: "archery",
+                  name: "Владение луком",
+                  description: "Стрельба из лука/арбалета.",
+                },
+                {
+                  id: "explosives",
+                  name: "Работа со взрывчаткой",
+                  description: "Изготовление, установка, обезвреживание бомб.",
+                },
+                {
+                  id: "poisons",
+                  name: "Работа с ядами и токсинами",
+                  description: "Приготовление, введение, антидоты.",
+                },
+                {
+                  id: "pickpocketing",
+                  name: "Ручная кража",
+                  description: "Карманные кражи, незаметное изъятие предметов.",
+                },
+                {
+                  id: "mobility",
+                  name: "Мобильность",
+                  description: "Паркур, лазание по стенам, акробатика.",
+                },
+                {
+                  id: "repair",
+                  name: "Ремонт",
+                  description: "Починка оружия, техники, электроники.",
+                },
+              ],
             },
             {
-              id: "charisma",
-              name: "Харизма и эмпатия",
-              description:
-                "Чтение и управление эмоциями, создание доверия/привязанности, эмоциональное доминирование.",
-            },
-            {
-              id: "interrogation",
-              name: "Допрос и пытки",
-              description:
-                "Извлечение информации, ломание воли, перепрограммирование.",
-            },
-            {
-              id: "seduction",
-              name: "Искусство соблазна",
-              description:
-                "Мастерство интимного влияния: агент проникает в окружение цели через романтические или эротические отношения, завоёвывая полное доверие.",
-            },
-            {
-              id: "education",
-              name: "Образованность",
-              description:
-                "Общие знания о мире: от школьной программы до энциклопедических познаний в науках, культуре, экономике, механике, астрономии и т.д.",
-            },
-            {
-              id: "survival",
-              name: "Выживание в дикой природе",
-              description:
-                "Терминатор получает данные, такие как: ориентирование, поиск пищи/воды, укрытие, выживание в экстремальных условиях.",
-            },
-            {
-              id: "stealth",
-              name: "Скрытность",
-              description:
-                "Бесшумное движение, маскировка, обход охраны и камер.",
-            },
-            {
-              id: "lockpicking",
-              name: "Взлом замков",
-              description:
-                "Открытие механических и электронных замков, сейфов.",
-            },
-            {
-              id: "hacking",
-              name: "Хакерство",
-              description: "Взлом сетей, компьютеров, систем безопасности.",
-            },
-            {
-              id: "driving",
-              name: "Вождение",
-              description:
-                "Управление транспортом от автомобилей до тяжёлой техники.",
-            },
-            {
-              id: "piloting",
-              name: "Пилотирование",
-              description:
-                "Способность агента к управлению воздушными транспортными средствами.",
-            },
-            {
-              id: "medicine",
-              name: "Медицина",
-              description:
-                "Первая помощь, лечение ран, хирургия, фармакология.",
-            },
-            {
-              id: "leadership",
-              name: "Лидерство",
-              description: "Командование отрядом, мотивация, тактика.",
-            },
-            {
-              id: "intuition",
-              name: "Интуиция",
-              description:
-                "Обученная нейросеть способна предугадывать ближайшее будущее.",
-            },
-            {
-              id: "firearms",
-              name: "Владение оружием (огнестрел)",
-              description:
-                "Стрельба из пистолетов, автоматов, снайперских винтовок.",
-            },
-            {
-              id: "unarmed",
-              name: "Бой без оружия",
-              description: "Рукопашный бой, захваты, удары.",
-            },
-            {
-              id: "shortBlades",
-              name: "Холодное оружие",
-              description: "Ножи, кинжалы, скрытые клинки.",
-            },
-            {
-              id: "longBlades",
-              name: "Длинное холодное оружие",
-              description: "Мечи, катаны, копья.",
-            },
-            {
-              id: "throwing",
-              name: "Метательное оружие",
-              description: "Сюрикэны, ножи, гранаты.",
-            },
-            {
-              id: "archery",
-              name: "Владение луком",
-              description: "Стрельба из лука/арбалета.",
-            },
-            {
-              id: "explosives",
-              name: "Работа со взрывчаткой",
-              description: "Изготовление, установка, обезвреживание бомб.",
-            },
-            {
-              id: "poisons",
-              name: "Работа с ядами и токсинами",
-              description: "Приготовление, введение, антидоты.",
-            },
-            {
-              id: "pickpocketing",
-              name: "Ручная кража",
-              description: "Карманные кражи, незаметное изъятие предметов.",
-            },
-            {
-              id: "mobility",
-              name: "Мобильность",
-              description: "Паркур, лазание по стенам, акробатика.",
-            },
-            {
-              id: "repair",
-              name: "Ремонт",
-              description: "Починка оружия, техники, электроники.",
-            },
-            {
-              id: "endoskeleton",
-              name: "Эндоскелет",
-              description:
-                "Стальная/титановая рама, защищающая центральный процессор и внутренние элементы. Определяет стойкость к перегрузкам, температурам, ударам.",
-            },
-            {
-              id: "hydraulics",
-              name: "Гидросистема",
-              description:
-                "Система гидравлики, отвечающая за скорость, силу, точность движений, максимальную скорость бега и высоту прыжка.",
-            },
-            {
-              id: "neuralProcessor",
-              name: "Мощность нейропроцессора",
-              description:
-                "Скорость реакции и обработки информации. На низких уровнях сопоставимо с современными процессорами, на высоких — значительно превосходит.",
-            },
-            {
-              id: "sensors",
-              name: "Сенсорные системы",
-              description:
-                "Зрение, слух, тепловизор, радар, лидар и другие датчики. На поздних уровнях сенсоры распределяются по всему телу.",
-            },
-            {
-              id: "camouflage",
-              name: "Маскировка",
-              description:
-                "Внешнее покрытие: от металлического корпуса до полностью живой кожи с органами и кровеносной системой.",
-            },
-            {
-              id: "powerSupply",
-              name: "Питание",
-              description:
-                "Источник энергии: от аккумуляторов до ядерных топливных ячеек. Определяет автономность.",
-            },
-            {
-              id: "memory",
-              name: "Память",
-              description:
-                "Объём оперативной и долговременной памяти, скорость обмена между головой и телом.",
-            },
-            {
-              id: "communication",
-              name: "Связь",
-              description:
-                "Радио-, спутниковая и другие виды связи с другими юнитами. Дальность и устойчивость к помехам.",
-            },
-            {
-              id: "redundancy",
-              name: "Дублирование систем",
-              description:
-                "Резервные копии сенсоров, памяти, питания, связи и процессоров в теле (кроме гидравлики и зрения).",
-            },
-            {
-              id: "voiceModulator",
-              name: "Модулятор голоса",
-              description:
-                "Синтез и копирование человеческого голоса. На высоких уровнях — идеальная имитация за секунды.",
+              chapterTitle: "Железо",
+              perks: [
+                {
+                  id: "endoskeleton",
+                  name: "Эндоскелет",
+                  description:
+                    "Стальная/титановая рама, защищающая центральный процессор и внутренние элементы. Определяет стойкость к перегрузкам, температурам, ударам.",
+                },
+                {
+                  id: "hydraulics",
+                  name: "Гидросистема",
+                  description:
+                    "Система гидравлики, отвечающая за скорость, силу, точность движений, максимальную скорость бега и высоту прыжка.",
+                },
+                {
+                  id: "neuralProcessor",
+                  name: "Мощность нейропроцессора",
+                  description:
+                    "Скорость реакции и обработки информации. На низких уровнях сопоставимо с современными процессорами, на высоких — значительно превосходит.",
+                },
+                {
+                  id: "sensors",
+                  name: "Сенсорные системы",
+                  description:
+                    "Зрение, слух, тепловизор, радар, лидар и другие датчики. На поздних уровнях сенсоры распределяются по всему телу.",
+                },
+                {
+                  id: "camouflage",
+                  name: "Маскировка",
+                  description:
+                    "Внешнее покрытие: от металлического корпуса до полностью живой кожи с органами и кровеносной системой.",
+                },
+                {
+                  id: "powerSupply",
+                  name: "Питание",
+                  description:
+                    "Источник энергии: от аккумуляторов до ядерных топливных ячеек. Определяет автономность.",
+                },
+                {
+                  id: "memory",
+                  name: "Память",
+                  description:
+                    "Объём оперативной и долговременной памяти, скорость обмена между головой и телом.",
+                },
+                {
+                  id: "communication",
+                  name: "Связь",
+                  description:
+                    "Радио-, спутниковая и другие виды связи с другими юнитами. Дальность и устойчивость к помехам.",
+                },
+                {
+                  id: "redundancy",
+                  name: "Дублирование систем",
+                  description:
+                    "Резервные копии сенсоров, памяти, питания, связи и процессоров в теле (кроме гидравлики и зрения).",
+                },
+                {
+                  id: "voiceModulator",
+                  name: "Модулятор голоса",
+                  description:
+                    "Синтез и копирование человеческого голоса. На высоких уровнях — идеальная имитация за секунды.",
+                },
+              ],
             },
           ],
           ranks: [
@@ -2915,15 +2974,21 @@
         }
 
         const config = GAME_DATA[currentTab];
+        const agentSkills = {};
+
+        // Проходим по всем главам и всем перкам внутри них
+        config.skills.forEach((chapter) => {
+          chapter.perks.forEach((perk) => {
+            agentSkills[perk.id] = 0;
+          });
+        });
+
         const agent = {
           id: Date.now().toString(),
           name,
           photo: newAgentPhoto.value.trim() || "",
           description: newAgentDescription.value.trim() || "Новый агент клана",
-          skills: config.skills.reduce((acc, s) => {
-            acc[s.id] = 0;
-            return acc;
-          }, {}),
+          skills: agentSkills,
           level: 0,
           rank: config.ranks[0].name,
           status: "waiting",
@@ -2974,41 +3039,70 @@
       }
 
       function renderSkills() {
-        skillsGrid.innerHTML = "";
+        skillsGrid.innerHTML = ""; // очищаем весь контейнер
 
         const config = GAME_DATA[currentTab];
-        config.skills.forEach((skill) => {
-          const level = currentAgentData.skills[skill.id] || 0;
-          const maxLevel = config.maxLevel;
-          const progress = (Math.min(level, maxLevel) / maxLevel) * 100;
+        const agentSkills = currentAgentData.skills || {};
 
-          let levelText = "";
-          const desc = config.skillLevelDescriptions[skill.id];
-          if (desc && level >= 1 && level <= maxLevel) {
-            levelText = desc[level] || "";
-          }
+        // 1. Главный заголовок раздела (один раз, как раньше)
+        const mainHeader = document.createElement("div");
+        mainHeader.className = "skills-header";
+        mainHeader.textContent = config.treeTitle || "Навыки";
+        skillsGrid.appendChild(mainHeader);
 
-          const item = document.createElement("div");
-          item.className = "skill-item";
-          item.innerHTML = `
-            <div class="skill-header">
-                <span class="skill-name">${skill.name}</span>
-                <div class="skill-level">
-                    <button class="level-btn ${level < 1 ? "disabled" : ""}" data-skill="${skill.id}" data-action="decrease">-</button>
-                    <span class="current-level">${level}</span>
-                    <button class="level-btn ${level >= maxLevel ? "disabled" : ""}" data-skill="${skill.id}" data-action="increase">+</button>
-                </div>
-            </div>
-            <div class="skill-description">${skill.description}</div>
-            ${levelText ? `<div class="skill-level-desc">${levelText}</div>` : ""}
-            <div class="skill-progress">
-                <div class="skill-progress-bar" style="width:${progress}%"></div>
-            </div>
-            <div class="skill-progress-label">${Math.min(level, maxLevel)}/${maxLevel}</div>
-        `;
-          skillsGrid.appendChild(item);
+        // 2. Проходим по главам
+        config.skills.forEach((chapter) => {
+          // Создаём контейнер для всей главы (чтобы карточки были в гриде внутри главы)
+          const chapterContainer = document.createElement("div");
+          chapterContainer.className = "chapter-container";
+
+          // Заголовок главы — теперь внутри контейнера, стиль как у .skills-header, но меньше
+          const chapterHeader = document.createElement("div");
+          chapterHeader.className = "chapter-header";
+          chapterHeader.innerHTML = `<h3>${chapter.chapterTitle}</h3>`;
+          chapterContainer.appendChild(chapterHeader);
+
+          // Контейнер-грид для карточек перков этой главы
+          const perksGrid = document.createElement("div");
+          perksGrid.className = "perks-grid"; // новый класс для подгрида
+
+          chapter.perks.forEach((skill) => {
+            const level = agentSkills[skill.id] || 0;
+            const maxLevel = config.maxLevelPerSkill;
+            const progress = (Math.min(level, maxLevel) / maxLevel) * 100;
+
+            let levelText = "";
+            const desc = config.skillLevelDescriptions[skill.id];
+            if (desc && level >= 1 && level <= maxLevel) {
+              levelText = desc[level] || "";
+            }
+
+            const item = document.createElement("div");
+            item.className = "skill-item";
+            item.innerHTML = `
+        <div class="skill-header">
+          <span class="skill-name">${skill.name}</span>
+          <div class="skill-level">
+            <button class="level-btn ${level < 1 ? "disabled" : ""}" data-skill="${skill.id}" data-action="decrease">-</button>
+            <span class="current-level">${level}</span>
+            <button class="level-btn ${level >= maxLevel ? "disabled" : ""}" data-skill="${skill.id}" data-action="increase">+</button>
+          </div>
+        </div>
+        <div class="skill-description">${skill.description}</div>
+        ${levelText ? `<div class="skill-level-desc">${levelText}</div>` : ""}
+        <div class="skill-progress">
+          <div class="skill-progress-bar" style="width:${progress}%"></div>
+        </div>
+        <div class="skill-progress-label">${Math.min(level, maxLevel)}/${maxLevel}</div>
+      `;
+            perksGrid.appendChild(item);
+          });
+
+          chapterContainer.appendChild(perksGrid);
+          skillsGrid.appendChild(chapterContainer);
         });
 
+        // Обработчики на все кнопки
         document.querySelectorAll(".level-btn").forEach((btn) => {
           btn.addEventListener("click", handleSkillChange);
           btn.addEventListener("mousedown", startHold);
@@ -3034,13 +3128,16 @@
         let balance =
           parseInt(localStorage.getItem(getStorageKey("totalBalance"))) || 0;
         const config = GAME_DATA[currentTab];
-        const maxLevel = config.maxLevel;
+        const maxLevel = config.maxLevelPerSkill;
         const costBase = config.costBase;
 
         if (action === "increase") {
           if (level >= maxLevel) return;
           const cost = (level + 1) * costBase;
-          if (balance < cost) return;
+          if (balance < cost) {
+            showNotification("Недостаточно OE", "error");
+            return;
+          }
           localStorage.setItem(getStorageKey("totalBalance"), balance - cost);
           currentAgentData.skills[skillId] = level + 1;
         } else if (action === "decrease" && level > 0) {
@@ -3076,7 +3173,6 @@
         agentRankTitle.textContent = currentAgentData.rank;
         agentRankBadge.textContent = rank ? rank.badge : "◽️";
       }
-
       function editAvatar() {
         const url = prompt("URL фотографии:", currentAgentData.photo || "");
         if (url !== null) {
