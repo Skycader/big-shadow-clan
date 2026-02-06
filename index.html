@@ -1,0 +1,1920 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Клан Большой Тени - Агенты</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        /* Dark Solarized color scheme */
+        --base03: #002b36;
+        --base02: #073642;
+        --base01: #586e75;
+        --base00: #657b83;
+        --base0: #839496;
+        --base1: #93a1a1;
+        --base2: #eee8d5;
+        --base3: #fdf6e3;
+
+        --yellow: #b58900;
+        --orange: #cb4b16;
+        --red: #dc322f;
+        --magenta: #d33682;
+        --violet: #6c71c4;
+        --blue: #268bd2;
+        --cyan: #2aa198;
+        --green: #859900;
+
+        --primary: var(--base03);
+        --secondary: var(--base02);
+        --accent: var(--yellow);
+        --text: var(--base1);
+        --text-muted: var(--base00);
+        --border: var(--base01);
+        --success: var(--green);
+        --danger: var(--red);
+        --warning: var(--orange);
+        --skill-bg: var(--base02);
+        --skill-hover: var(--base01);
+        --rank-bg: rgba(181, 137, 0, 0.15);
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--primary);
+        color: var(--text);
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+
+      .header {
+        background: var(--secondary);
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid var(--accent);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+      }
+
+      .header-title {
+        font-size: 2.2em;
+        font-weight: 900;
+        letter-spacing: 2px;
+        color: var(--accent);
+        text-shadow: 0 0 10px rgba(181, 137, 0, 0.3);
+      }
+
+      .header-controls {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+      }
+
+      .balance-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: linear-gradient(135deg, var(--accent), var(--yellow));
+        padding: 15px 25px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(181, 137, 0, 0.4);
+      }
+
+      .balance-container:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(181, 137, 0, 0.6);
+      }
+
+      .balance-label {
+        font-size: 0.95em;
+        color: var(--base03);
+        font-weight: 600;
+      }
+
+      .balance-value {
+        font-size: 2.2em;
+        font-weight: 900;
+        color: var(--base03);
+        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        min-width: 80px;
+        text-align: center;
+      }
+
+      .balance-years {
+        font-size: 1em;
+        color: var(--base03);
+        font-weight: 600;
+      }
+
+      .header-icon {
+        width: 45px;
+        height: 45px;
+        background: var(--secondary);
+        border: 2px solid var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent);
+        font-size: 1.3em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .header-icon:hover {
+        background: var(--accent);
+        color: var(--base03);
+        transform: rotate(15deg) scale(1.1);
+        box-shadow: 0 5px 15px rgba(181, 137, 0, 0.5);
+      }
+
+      .header-icon.export {
+        background: var(--green);
+        color: white;
+        border-color: var(--green);
+      }
+      .header-icon.export:hover {
+        background: var(--success);
+      }
+      .header-icon.import {
+        background: var(--blue);
+        color: white;
+        border-color: var(--blue);
+      }
+      .header-icon.import:hover {
+        background: var(--cyan);
+      }
+      .header-icon.copy {
+        background: var(--cyan);
+        color: white;
+        border-color: var(--cyan);
+      }
+      .header-icon.copy:hover {
+        background: var(--blue);
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 30px auto;
+        padding: 0 20px;
+      }
+
+      .agents-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--secondary);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        margin-bottom: 30px;
+      }
+
+      .agents-table th {
+        background: linear-gradient(
+          135deg,
+          var(--accent) 0%,
+          var(--yellow) 100%
+        );
+        padding: 15px;
+        text-align: left;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.9em;
+        color: var(--base03);
+      }
+
+      .agents-table tr {
+        border-bottom: 1px solid var(--border);
+      }
+
+      .agents-table td {
+        padding: 12px 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .agents-table tr:hover {
+        background: rgba(181, 137, 0, 0.1);
+      }
+
+      .agents-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .agents-table td:first-child {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .agent-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--base01);
+        object-fit: cover;
+        border: 2px solid var(--accent);
+      }
+
+      .status {
+        display: inline-block;
+        border-radius: 20px;
+        padding: 0px 5px;
+        font-size: 0.85em;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .status.waiting {
+        background: var(--blue);
+        color: white;
+      }
+
+      .status.active {
+        background: var(--green);
+        color: white;
+      }
+
+      .rank-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: center;
+      }
+
+      .rank-name {
+        font-size: 1.1em;
+        font-weight: 600;
+        color: var(--yellow);
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .rank-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 8px;
+        background: var(--rank-bg);
+        font-size: 1em;
+        font-weight: 700;
+        color: var(--yellow);
+        line-height: 1.4;
+        white-space: pre-line;
+        text-align: center;
+        min-width: 60px;
+      }
+
+      .add-agent-btn {
+        display: block;
+        width: 250px;
+        margin: 20px auto;
+        padding: 15px 30px;
+        background: linear-gradient(
+          135deg,
+          var(--accent) 0%,
+          var(--yellow) 100%
+        );
+        color: var(--base03);
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1em;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(181, 137, 0, 0.4);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .add-agent-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(181, 137, 0, 0.6);
+      }
+
+      .add-agent-btn:active {
+        transform: translateY(1px);
+      }
+
+      /* Agent Profile Styles */
+      .profile-container {
+        display: none;
+        max-width: 1300px;
+        margin: 30px auto;
+        background: var(--secondary);
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+        border: 2px solid var(--accent);
+      }
+
+      .profile-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid var(--border);
+        position: relative;
+      }
+
+      .profile-title {
+        font-size: 2.5em;
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      .back-btn {
+        padding: 12px 30px;
+        background: linear-gradient(135deg, var(--accent), var(--yellow));
+        color: var(--base03);
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 1.1em;
+        box-shadow: 0 3px 10px rgba(181, 137, 0, 0.3);
+      }
+
+      .back-btn:hover {
+        background: linear-gradient(135deg, var(--yellow), #d7af00);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(181, 137, 0, 0.5);
+      }
+
+      .copy-btn {
+        width: 45px;
+        height: 45px;
+        background: linear-gradient(135deg, var(--cyan), var(--blue));
+        border: 2px solid var(--cyan);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-left: 15px;
+        box-shadow: 0 3px 10px rgba(42, 161, 152, 0.3);
+      }
+
+      .copy-btn:hover {
+        background: linear-gradient(135deg, var(--blue), #1e6bb8);
+        transform: scale(1.1);
+        box-shadow: 0 5px 15px rgba(42, 161, 152, 0.5);
+      }
+
+      .profile-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+
+      .profile-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
+      }
+
+      .profile-avatar-container {
+        position: relative;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .profile-avatar-container:hover {
+        transform: scale(1.05);
+      }
+
+      .profile-avatar-container::after {
+        content: "✎";
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        background: var(--accent);
+        color: var(--base03);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2em;
+        font-weight: 700;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .profile-avatar-container:hover::after {
+        opacity: 1;
+      }
+
+      .profile-avatar {
+        width: 240px;
+        height: 240px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid var(--accent);
+        background: var(--base01);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        transition: all 0.3s ease;
+      }
+
+      .profile-avatar-editable {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: rgba(181, 137, 0, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5em;
+        font-weight: 600;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .profile-avatar-container:hover .profile-avatar-editable {
+        opacity: 1;
+      }
+
+      .profile-rank-container {
+        text-align: center;
+        background: var(--rank-bg);
+        padding: 15px 30px;
+        border-radius: 10px;
+        border: 2px solid var(--accent);
+        width: 100%;
+        box-shadow: 0 4px 15px rgba(181, 137, 0, 0.2);
+      }
+
+      .profile-rank-title {
+        font-size: 1.1em;
+        font-weight: 600;
+        color: var(--yellow);
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .profile-rank-badge {
+        font-size: 2.5em;
+        line-height: 1.4;
+        font-weight: 900;
+        color: var(--accent);
+        white-space: pre-line;
+        text-align: center;
+      }
+
+      .profile-info {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        width: 100%;
+      }
+
+      .info-group {
+        margin-bottom: 20px;
+      }
+
+      .info-label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.95em;
+      }
+
+      .info-input {
+        width: 100%;
+        padding: 14px 18px;
+        background: var(--skill-bg);
+        border: 2px solid var(--border);
+        border-radius: 10px;
+        color: var(--text);
+        font-size: 1.2em;
+        transition: all 0.3s ease;
+      }
+
+      .info-input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 15px rgba(181, 137, 0, 0.4);
+      }
+
+      .info-select {
+        width: 100%;
+        padding: 14px 18px;
+        background: var(--skill-bg);
+        border: 2px solid var(--border);
+        border-radius: 10px;
+        color: var(--text);
+        font-size: 1.2em;
+        appearance: none;
+        background-image: url("image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23839496' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 20px;
+      }
+
+      .profile-description {
+        background: var(--skill-bg);
+        border: 2px solid var(--border);
+        border-radius: 10px;
+        padding: 20px;
+        width: 100%;
+        height: 100%;
+        min-height: 500px;
+        font-size: 1.1em;
+        line-height: 1.7;
+        resize: vertical;
+        color: var(--text);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .profile-description:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 15px rgba(181, 137, 0, 0.4);
+      }
+
+      .level-info {
+        background: var(--skill-bg);
+        border: 2px solid var(--border);
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+      }
+
+      .level-label {
+        display: block;
+        font-size: 0.95em;
+        color: var(--text-muted);
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .level-value {
+        font-size: 3.5em;
+        font-weight: 900;
+        color: var(--text);
+        text-shadow: 0 0 15px rgba(181, 137, 0, 0.5);
+      }
+
+      .skills-container {
+        margin-top: 20px;
+        grid-column: 1 / -1;
+      }
+
+      .skills-header {
+        font-size: 2em;
+        font-weight: 700;
+        margin-bottom: 25px;
+        color: var(--accent);
+        text-align: center;
+        padding-bottom: 15px;
+        border-bottom: 2px solid var(--border);
+      }
+
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+        gap: 20px;
+      }
+
+      .skill-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background: var(--skill-bg);
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        transition: all 0.3s ease;
+      }
+
+      .skill-item:hover {
+        background: var(--skill-hover);
+        transform: translateX(5px);
+        border-color: var(--accent);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .skill-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .skill-name {
+        font-weight: 700;
+        font-size: 1.15em;
+        color: var(--text);
+      }
+
+      .skill-level {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .level-btn {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, var(--accent), var(--yellow));
+        color: var(--base03);
+        border: none;
+        border-radius: 50%;
+        font-size: 1.4em;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 3px 10px rgba(181, 137, 0, 0.3);
+      }
+
+      .level-btn:hover {
+        background: linear-gradient(135deg, var(--yellow), #d7af00);
+        transform: scale(1.15);
+        box-shadow: 0 5px 15px rgba(181, 137, 0, 0.5);
+      }
+
+      .level-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        background: var(--base01);
+        color: var(--base00);
+        box-shadow: none;
+      }
+
+      .current-level {
+        font-size: 1.8em;
+        font-weight: 900;
+        min-width: 50px;
+        text-align: center;
+        color: var(--accent);
+      }
+
+      .skill-description {
+        flex-grow: 1;
+        font-size: 0.95em;
+        color: var(--text-muted);
+        line-height: 1.6;
+        margin-top: 12px;
+        font-style: italic;
+      }
+
+      .skill-progress {
+        margin-top: 10px;
+        background: var(--base01);
+        border-radius: 5px;
+        height: 10px;
+        overflow: hidden;
+      }
+
+      .skill-progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent), var(--yellow));
+        transition: width 0.3s ease;
+      }
+
+      .skill-progress-label {
+        font-size: 0.8em;
+        color: var(--text-muted);
+        text-align: right;
+        margin-top: 5px;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        background: var(--secondary);
+        padding: 45px;
+        border-radius: 20px;
+        border: 3px solid var(--accent);
+        max-width: 550px;
+        width: 90%;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
+      }
+
+      .modal-title {
+        font-size: 2em;
+        margin-bottom: 25px;
+        color: var(--accent);
+        text-align: center;
+        text-shadow: 0 0 10px rgba(181, 137, 0, 0.3);
+      }
+
+      .modal-input {
+        width: 100%;
+        padding: 14px 18px;
+        margin-bottom: 25px;
+        background: var(--skill-bg);
+        border: 2px solid var(--border);
+        border-radius: 10px;
+        color: var(--text);
+        font-size: 1.2em;
+        transition: all 0.3s ease;
+      }
+
+      .modal-input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 15px rgba(181, 137, 0, 0.4);
+      }
+
+      .modal-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 25px;
+      }
+
+      .modal-btn {
+        padding: 14px 35px;
+        border: none;
+        border-radius: 35px;
+        font-weight: 700;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+      }
+
+      .modal-confirm {
+        background: linear-gradient(135deg, var(--success), var(--green));
+        color: white;
+        box-shadow: 0 4px 15px rgba(133, 153, 0, 0.4);
+      }
+
+      .modal-cancel {
+        background: linear-gradient(135deg, var(--danger), #a12a26);
+        color: white;
+        box-shadow: 0 4px 15px rgba(220, 50, 47, 0.4);
+      }
+
+      .modal-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 7px 20px rgba(0, 0, 0, 0.5);
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+        color: var(--text-muted);
+      }
+
+      .empty-state p {
+        font-size: 1.3em;
+        margin-top: 20px;
+      }
+
+      .file-input {
+        display: none;
+      }
+
+      .notification {
+        position: fixed;
+        top: 25px;
+        right: 25px;
+        padding: 18px 30px;
+        background: linear-gradient(135deg, var(--success), var(--green));
+        color: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        z-index: 2000;
+        transform: translateX(500px);
+        transition:
+          transform 0.4s ease,
+          opacity 0.4s ease;
+        font-size: 1.1em;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+
+      .notification.show {
+        transform: translateX(0);
+      }
+
+      .notification.error {
+        background: linear-gradient(135deg, var(--danger), #a12a26);
+      }
+
+      @media (max-width: 1024px) {
+        .profile-content {
+          grid-template-columns: 1fr;
+        }
+
+        .skills-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .profile-avatar {
+          width: 200px;
+          height: 200px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .header-title {
+          font-size: 1.6em;
+        }
+
+        .balance-value {
+          font-size: 1.8em;
+        }
+
+        .header {
+          padding: 15px 20px;
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .header-controls {
+          width: 100%;
+          justify-content: space-between;
+        }
+
+        .agents-table {
+          font-size: 0.85em;
+        }
+
+        .agents-table th,
+        .agents-table td {
+          padding: 8px 10px;
+        }
+
+        .agent-avatar {
+          width: 30px;
+          height: 30px;
+        }
+
+        .profile-container {
+          padding: 25px;
+          margin: 20px;
+        }
+
+        .profile-avatar {
+          width: 160px;
+          height: 160px;
+        }
+
+        .profile-rank-badge {
+          font-size: 1.8em;
+        }
+
+        .level-value {
+          font-size: 2.8em;
+        }
+
+        .skills-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .header-icon {
+          width: 40px;
+          height: 40px;
+          font-size: 1.1em;
+        }
+
+        .back-btn {
+          padding: 10px 25px;
+          font-size: 1em;
+        }
+
+        .profile-description {
+          min-height: 300px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header" id="header">
+      <div class="header-title">Клан Большой Тени</div>
+      <div class="header-controls">
+        <div class="balance-container" id="balanceContainer">
+          <span class="balance-value" id="totalBalance">0</span>
+        </div>
+        <a
+          href="#"
+          class="header-icon export"
+          id="exportBtn"
+          title="Экспорт данных"
+        >
+          <i class="fas fa-file-export"></i>
+        </a>
+        <a
+          href="#"
+          class="header-icon import"
+          id="importBtn"
+          title="Импорт данных"
+        >
+          <i class="fas fa-file-import"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="container">
+      <div id="main-view">
+        <table class="agents-table" id="agentsTable">
+          <thead>
+            <tr>
+              <th>Агент</th>
+              <th>Звание</th>
+              <th>Уровень</th>
+              <th>Статус</th>
+            </tr>
+          </thead>
+          <tbody id="agentsBody">
+            <!-- Agents will be populated here -->
+          </tbody>
+        </table>
+
+        <button class="add-agent-btn" id="addAgentBtn">+</button>
+      </div>
+
+      <div id="profile-view" class="profile-container">
+        <div class="profile-header">
+          <div>
+            <h2 class="profile-title" id="profileName">Имя агента</h2>
+            <button class="back-btn" id="backBtn">← Назад</button>
+          </div>
+          <button class="copy-btn" id="copyBtn" title="Копировать данные">
+            <i class="fas fa-copy"></i>
+          </button>
+        </div>
+
+        <div class="profile-content">
+          <div class="profile-left">
+            <div class="profile-avatar-container" id="avatarContainer">
+              <img
+                src=""
+                alt="Агент"
+                class="profile-avatar"
+                id="profileAvatar"
+              />
+              <div class="profile-avatar-editable">
+                КЛИКНИТЕ ДЛЯ РЕДАКТИРОВАНИЯ
+              </div>
+            </div>
+
+            <div class="profile-rank-container">
+              <div class="profile-rank-title" id="agentRankTitle">Звание</div>
+              <div class="profile-rank-badge" id="agentRankBadge">◽️</div>
+            </div>
+
+            <div class="profile-info">
+              <div class="info-group">
+                <label class="info-label">Имя агента</label>
+                <input
+                  type="text"
+                  class="info-input"
+                  id="agentName"
+                  placeholder="Введите имя"
+                />
+              </div>
+
+              <div class="info-group">
+                <label class="info-label">Статус</label>
+                <select class="info-select" id="agentStatus">
+                  <option value="waiting">Ожидание</option>
+                  <option value="active">Выполняет миссию</option>
+                </select>
+              </div>
+
+              <div class="level-info">
+                <span class="level-label">УРОВЕНЬ</span>
+                <div class="level-value" id="agentLevel">0</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-right">
+            <div class="info-group" style="width: 100%; height: 100%">
+              <label class="info-label">Описание</label>
+              <textarea
+                class="profile-description"
+                id="agentDescription"
+                placeholder="Описание агента"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="skills-container">
+          <div class="skills-header">Навыки агента</div>
+          <div class="skills-grid" id="skillsGrid">
+            <!-- Skills will be populated here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="addAgentModal">
+      <div class="modal-content">
+        <h3 class="modal-title">Добавить нового агента</h3>
+        <input
+          type="text"
+          class="modal-input"
+          id="newAgentName"
+          placeholder="Введите имя агента"
+          required
+        />
+        <input
+          type="text"
+          class="modal-input"
+          id="newAgentPhoto"
+          placeholder="URL фото (необязательно)"
+        />
+        <textarea
+          class="modal-input"
+          id="newAgentDescription"
+          placeholder="Описание агента (необязательно)"
+          rows="4"
+        ></textarea>
+        <div class="modal-buttons">
+          <button class="modal-btn modal-confirm" id="confirmAddAgent">
+            Добавить
+          </button>
+          <button class="modal-btn modal-cancel" id="cancelAddAgent">
+            Отмена
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="editBalanceModal">
+      <div class="modal-content">
+        <h3 class="modal-title">Редактировать общий баланс</h3>
+        <p
+          style="
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--text);
+            font-size: 1.1em;
+          "
+        >
+          Введите значение для изменения баланса:<br />
+          <small style="color: var(--text-muted); font-size: 0.95em">
+            Положительное — добавить, отрицательное — вычесть
+          </small>
+        </p>
+        <input
+          type="number"
+          class="modal-input"
+          id="balanceChangeValue"
+          placeholder="0"
+          step="1"
+        />
+        <div class="modal-buttons">
+          <button class="modal-btn modal-confirm" id="confirmBalanceEdit">
+            Применить
+          </button>
+          <button class="modal-btn modal-cancel" id="cancelBalanceEdit">
+            Отмена
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <input type="file" id="fileInput" class="file-input" accept=".json" />
+
+    <script>
+      // Skills data
+      const skillsData = [
+        {
+          id: "infiltration",
+          name: "Внедрение",
+          description:
+            "Искусство маскировки, манипуляции, убеждения, лжи, импровизации, ухода от вопросов и запугивания для проникновения в любые круги.",
+        },
+        {
+          id: "charisma",
+          name: "Харизма и эмпатия",
+          description:
+            "Чтение и управление эмоциями, создание доверия/привязанности, эмоциональное доминирование.",
+        },
+        {
+          id: "interrogation",
+          name: "Допрос и пытки",
+          description:
+            "Извлечение информации, ломание воли, перепрограммирование.",
+        },
+        {
+          id: "seduction",
+          name: "Искусство соблазна",
+          description:
+            "Мастерство интимного влияния: агент проникает в окружение цели через романтические или эротические отношения, завоёвывая полное доверие.",
+        },
+        {
+          id: "education",
+          name: "Образованность",
+          description:
+            "Общие знания о мире: от школьной программы до энциклопедических познаний в науках, культуре, экономике, механике, астрономии и т.д.",
+        },
+        {
+          id: "physical",
+          name: "Физическая подготовка",
+          description:
+            "Выносливость, сила, скорость, гибкость — базовая физическая форма.",
+        },
+        {
+          id: "resistance",
+          name: "Сопротивляемость",
+          description:
+            "Стойкость к боли, холоду, жаре, ядам, манипуляциям; повышенная прочность тела.",
+        },
+        {
+          id: "survival",
+          name: "Выживание в дикой природе",
+          description:
+            "Ориентирование, поиск пищи/воды, укрытие, выживание в экстремальных условиях.",
+        },
+        {
+          id: "stealth",
+          name: "Скрытность",
+          description: "Бесшумное движение, маскировка, обход охраны и камер.",
+        },
+        {
+          id: "lockpicking",
+          name: "Взлом замков",
+          description: "Открытие механических и электронных замков, сейфов.",
+        },
+        {
+          id: "hacking",
+          name: "Хакерство",
+          description: "Взлом сетей, компьютеров, систем безопасности.",
+        },
+        {
+          id: "driving",
+          name: "Вождение",
+          description:
+            "Управление транспортом от автомобилей до тяжёлой техники.",
+        },
+        {
+          id: "piloting",
+          name: "Пилотирование",
+          description:
+            "Способность агента к управлению воздушными транспортными средствами.",
+        },
+        {
+          id: "medicine",
+          name: "Медицина",
+          description: "Первая помощь, лечение ран, хирургия, фармакология.",
+        },
+        {
+          id: "leadership",
+          name: "Лидерство",
+          description: "Командование отрядом, мотивация, тактика.",
+        },
+        {
+          id: "perception",
+          name: "Восприятие",
+          description:
+            "Улучшенные органы чувств: зрение, слух, чтение языка тела, обнаружение скрытых угроз.",
+        },
+        {
+          id: "reaction",
+          name: "Скорость реакции",
+          description: "Сверхчеловеческие рефлексы, уклонение от угроз.",
+        },
+        {
+          id: "intuition",
+          name: "Интуиция",
+          description:
+            '"Шестое чувство": предвидение угроз, возможностей и скрытых факторов.',
+        },
+        {
+          id: "firearms",
+          name: "Владение оружием (огнестрел)",
+          description:
+            "Стрельба из пистолетов, автоматов, снайперских винтовок.",
+        },
+        {
+          id: "unarmed",
+          name: "Бой без оружия",
+          description: "Рукопашный бой, захваты, удары.",
+        },
+        {
+          id: "shortBlades",
+          name: "Ближний бой с коротким холодным оружием",
+          description: "Ножи, кинжалы, скрытые клинки.",
+        },
+        {
+          id: "longBlades",
+          name: "Бой с длинным холодным оружием",
+          description: "Мечи, катаны, копья.",
+        },
+        {
+          id: "throwing",
+          name: "Метательное оружие",
+          description: "Сюрикэны, ножи, гранаты.",
+        },
+        {
+          id: "archery",
+          name: "Владение луком",
+          description: "Стрельба из лука/арбалета.",
+        },
+        {
+          id: "explosives",
+          name: "Работа со взрывчаткой",
+          description: "Изготовление, установка, обезвреживание бомб.",
+        },
+        {
+          id: "poisons",
+          name: "Работа с ядами и токсинами",
+          description: "Приготовление, введение, антидоты.",
+        },
+        {
+          id: "pickpocketing",
+          name: "Ручная кража",
+          description: "Карманные кражи, незаметное изъятие предметов.",
+        },
+        {
+          id: "mobility",
+          name: "Мобильность",
+          description: "Паркур, лазание по стенам, акробатика.",
+        },
+        {
+          id: "repair",
+          name: "Ремонт",
+          description: "Починка оружия, техники, электроники.",
+        },
+        {
+          id: "mentorship",
+          name: "Наставничество",
+          description: "Обучение других агентов, передача навыков.",
+        },
+      ];
+
+      // Ranks data with badges
+      const ranksData = [
+        {
+          minLevel: 0,
+          maxLevel: 25,
+          name: "Рекрут",
+          badge: "◽️",
+          description:
+            "Только принят в клан. Проходит базовую подготовку. Не участвует в операциях.",
+        },
+        {
+          minLevel: 26,
+          maxLevel: 50,
+          name: "Слуга",
+          badge: "⬜️⬜️",
+          description:
+            "Выполняет вспомогательные задачи (логистика, разведка). Без права на убийство.",
+        },
+        {
+          minLevel: 51,
+          maxLevel: 75,
+          name: "Ученик",
+          badge: "⬜️⬜️⬜️",
+          description:
+            "Прошёл боевую подготовку. Участвует в простых миссиях под надзором.",
+        },
+        {
+          minLevel: 76,
+          maxLevel: 100,
+          name: "Посвящённый",
+          badge: "🟨",
+          description:
+            "Совершил первое устранение. Выполет саботаж и кражи самостоятельно.",
+        },
+        {
+          minLevel: 101,
+          maxLevel: 125,
+          name: "Охотник",
+          badge: "🟨🟨",
+          description:
+            "Исполнитель сложных одиночных миссий. Месяцами работает под легендой.",
+        },
+        {
+          minLevel: 126,
+          maxLevel: 150,
+          name: "Воин",
+          badge: "🟨🟨🟨",
+          description:
+            "Полноценный оперативник. Участвует в открытых боевых операциях любого типа.",
+        },
+        {
+          minLevel: 151,
+          maxLevel: 175,
+          name: "Ветеран",
+          badge: "🟨🟨\n🟨🟨",
+          description:
+            "Обладает огромным опытом. Командует малым отрядом (до 5 агентов).",
+        },
+        {
+          minLevel: 176,
+          maxLevel: 200,
+          name: "Ассасин",
+          badge: "🟨🟨\n🟨🟨\n🟨🟨",
+          description:
+            "Специалист высшего уровня по скрытным ликвидациям. Отряд: до 8 человек.",
+        },
+        {
+          minLevel: 201,
+          maxLevel: 225,
+          name: "Страж",
+          badge: "🟨🟨\n🟨🟨\n🟥🟥",
+          description:
+            "Мастер зачистки элитной охраны и прямых столкновений. Отряд: до 12 человек.",
+        },
+        {
+          minLevel: 226,
+          maxLevel: 250,
+          name: "Мастер",
+          badge: "🟨🟨\n🟥🟥\n🟥🟥",
+          description:
+            "Легенда. Выполняет миссии государственного масштаба. Отряд: до 20 человек.",
+        },
+        {
+          minLevel: 251,
+          maxLevel: 275,
+          name: "Тень",
+          badge: "🟥🟥\n🟥🟥\n🟥🟥",
+          description:
+            "Видел Ямигами лично. Меняет ход истории. Отряд: до 30 человек + инфосеть.",
+        },
+        {
+          minLevel: 276,
+          maxLevel: 300,
+          name: "Генерал",
+          badge: "⬛️",
+          description:
+            "Командует регионами или типами операций. Отчитывается только повелителю.",
+        },
+      ];
+
+      // DOM Elements
+      const agentsBody = document.getElementById("agentsBody");
+      const addAgentBtn = document.getElementById("addAgentBtn");
+      const addAgentModal = document.getElementById("addAgentModal");
+      const confirmAddAgent = document.getElementById("confirmAddAgent");
+      const cancelAddAgent = document.getElementById("cancelAddAgent");
+      const newAgentName = document.getElementById("newAgentName");
+      const newAgentPhoto = document.getElementById("newAgentPhoto");
+      const newAgentDescription = document.getElementById(
+        "newAgentDescription",
+      );
+      const profileView = document.getElementById("profile-view");
+      const mainView = document.getElementById("main-view");
+      const backBtn = document.getElementById("backBtn");
+      const agentNameInput = document.getElementById("agentName");
+      const agentDescriptionInput = document.getElementById("agentDescription");
+      const agentStatusSelect = document.getElementById("agentStatus");
+      const agentRankTitle = document.getElementById("agentRankTitle");
+      const agentRankBadge = document.getElementById("agentRankBadge");
+      const agentLevelDisplay = document.getElementById("agentLevel");
+      const skillsGrid = document.getElementById("skillsGrid");
+      const totalBalanceDisplay = document.getElementById("totalBalance");
+      const balanceContainer = document.getElementById("balanceContainer");
+      const exportBtn = document.getElementById("exportBtn");
+      const importBtn = document.getElementById("importBtn");
+      const fileInput = document.getElementById("fileInput");
+      const editBalanceModal = document.getElementById("editBalanceModal");
+      const balanceChangeValue = document.getElementById("balanceChangeValue");
+      const confirmBalanceEdit = document.getElementById("confirmBalanceEdit");
+      const cancelBalanceEdit = document.getElementById("cancelBalanceEdit");
+      const header = document.getElementById("header");
+      const copyBtn = document.getElementById("copyBtn");
+      const profileAvatar = document.getElementById("profileAvatar");
+      const profileName = document.getElementById("profileName");
+      const avatarContainer = document.getElementById("avatarContainer");
+      const notification = document.getElementById("notification");
+
+      // Current agent being edited
+      let currentAgentId = null;
+      let currentAgentData = null;
+      let isAutoSaving = false;
+      let holdInterval = null;
+      let isHolding = false;
+
+      // Initialize
+      loadAgents();
+      loadTotalBalance();
+      setupEventListeners();
+
+      function setupEventListeners() {
+        addAgentBtn.addEventListener("click", () => {
+          newAgentName.value = "";
+          newAgentPhoto.value = "";
+          newAgentDescription.value = "";
+          addAgentModal.style.display = "flex";
+        });
+
+        confirmAddAgent.addEventListener("click", addNewAgent);
+        cancelAddAgent.addEventListener("click", () => {
+          addAgentModal.style.display = "none";
+        });
+
+        backBtn.addEventListener("click", () => {
+          profileView.style.display = "none";
+          mainView.style.display = "block";
+          loadAgents();
+        });
+
+        balanceContainer.addEventListener("click", () => {
+          balanceChangeValue.value = "";
+          editBalanceModal.style.display = "flex";
+        });
+
+        confirmBalanceEdit.addEventListener("click", saveBalanceChange);
+        cancelBalanceEdit.addEventListener("click", () => {
+          editBalanceModal.style.display = "none";
+        });
+
+        exportBtn.addEventListener("click", exportDatabase);
+        importBtn.addEventListener("click", () => fileInput.click());
+        fileInput.addEventListener("change", importDatabase);
+
+        header.addEventListener("click", () => {
+          if (profileView.style.display === "block") {
+            profileView.style.display = "none";
+            mainView.style.display = "block";
+            loadAgents();
+          }
+        });
+
+        copyBtn.addEventListener("click", copyAgentData);
+
+        // Avatar click handler
+        avatarContainer.addEventListener("click", editAvatar);
+
+        // Auto-save listeners
+        agentNameInput.addEventListener("input", autoSaveAgent);
+        agentDescriptionInput.addEventListener("input", autoSaveAgent);
+        agentStatusSelect.addEventListener("change", autoSaveAgent);
+      }
+
+      function loadTotalBalance() {
+        const balance = parseInt(localStorage.getItem("totalBalance")) || 0;
+        totalBalanceDisplay.textContent = balance;
+      }
+
+      function saveBalanceChange() {
+        const changeValue = parseInt(balanceChangeValue.value);
+        if (isNaN(changeValue)) {
+          showNotification("Пожалуйста, введите корректное число", "error");
+          return;
+        }
+
+        const currentBalance =
+          parseInt(localStorage.getItem("totalBalance")) || 0;
+        const newBalance = currentBalance + changeValue;
+
+        if (newBalance < 0) {
+          showNotification("Баланс не может быть отрицательным!", "error");
+          return;
+        }
+
+        localStorage.setItem("totalBalance", newBalance);
+        loadTotalBalance();
+        editBalanceModal.style.display = "none";
+        showNotification(
+          `Баланс изменен на ${changeValue > 0 ? "+" : ""}${changeValue} лет`,
+        );
+      }
+
+      function exportDatabase() {
+        const agents = JSON.parse(localStorage.getItem("assassinAgents")) || [];
+        const balance = parseInt(localStorage.getItem("totalBalance")) || 0;
+
+        const data = {
+          agents: agents,
+          totalBalance: balance,
+          exportedAt: new Date().toISOString(),
+        };
+
+        const dataStr = JSON.stringify(data, null, 2);
+        const dataUri =
+          "application/json;charset=utf-8," + encodeURIComponent(dataStr);
+
+        const exportFileDefaultName =
+          "clan-shadow-db-" + new Date().toISOString().slice(0, 10) + ".json";
+
+        const linkElement = document.createElement("a");
+        linkElement.setAttribute("href", dataUri);
+        linkElement.setAttribute("download", exportFileDefaultName);
+        linkElement.click();
+        showNotification("База данных экспортирована!");
+      }
+
+      function importDatabase(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          try {
+            const data = JSON.parse(e.target.result);
+
+            if (data.agents && data.totalBalance !== undefined) {
+              localStorage.setItem(
+                "assassinAgents",
+                JSON.stringify(data.agents),
+              );
+              localStorage.setItem("totalBalance", data.totalBalance);
+              showNotification("База данных успешно импортирована!");
+              loadTotalBalance();
+              loadAgents();
+            } else {
+              showNotification("Неверный формат файла базы данных", "error");
+            }
+          } catch (error) {
+            showNotification("Ошибка при импорте: " + error.message, "error");
+          }
+        };
+        reader.readAsText(file);
+        fileInput.value = "";
+      }
+
+      function loadAgents() {
+        const agents = JSON.parse(localStorage.getItem("assassinAgents")) || [];
+        agentsBody.innerHTML = "";
+
+        if (agents.length === 0) {
+          agentsBody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="empty-state">
+                            <p>Нет агентов в базе данных</p>
+                            <p>Нажмите кнопку "Добавить агента" чтобы создать первого</p>
+                        </td>
+                    </tr>
+                `;
+          return;
+        }
+
+        // Sort agents by level descending
+        agents.sort((a, b) => b.level - a.level);
+
+        agents.forEach((agent) => {
+          const photo =
+            agent.photo ||
+            "https://via.placeholder.com/40/073642/839496?text=??";
+          const status = agent.status || "waiting";
+
+          // Find rank badge
+          const rank = ranksData.find((r) => r.name === agent.rank);
+          const badge = rank ? rank.badge : "◽️";
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+                    <td>
+                        <img src="${photo}" alt="${agent.name}" class="agent-avatar" onerror="this.src='https://via.placeholder.com/40/073642/839496?text=??'">
+                        <span>${agent.name}</span>
+                    </td>
+                    <td>
+                        <div class="rank-name">${agent.rank}</div>
+                        <div class="rank-container">
+                            <div class="rank-badge">${badge}</div>
+                        </div>
+                    </td>
+                    <td>${agent.level}</td>
+                    <td><span class="status ${status}">${formatStatus(status)}</span></td>
+                `;
+          row.addEventListener("click", () => openAgentProfile(agent.id));
+          agentsBody.appendChild(row);
+        });
+      }
+
+      function formatStatus(status) {
+        const statusMap = {
+          waiting: "Ожидание",
+          active: "Выполняет миссию",
+        };
+        return statusMap[status] || status;
+      }
+
+      function addNewAgent() {
+        const name = newAgentName.value.trim();
+        const photo = newAgentPhoto.value.trim();
+        const description = newAgentDescription.value.trim();
+
+        if (!name) {
+          showNotification("Пожалуйста, введите имя агента", "error");
+          return;
+        }
+
+        const newAgent = {
+          id: Date.now().toString(),
+          name: name,
+          photo: photo || "",
+          description: description || "Новый агент клана",
+          skills: skillsData.reduce((acc, skill) => {
+            acc[skill.id] = 0;
+            return acc;
+          }, {}),
+          level: 0,
+          rank: "Рекрут",
+          status: "waiting",
+          createdAt: new Date().toISOString(),
+        };
+
+        const agents = JSON.parse(localStorage.getItem("assassinAgents")) || [];
+        agents.push(newAgent);
+        localStorage.setItem("assassinAgents", JSON.stringify(agents));
+
+        addAgentModal.style.display = "none";
+        loadAgents();
+        showNotification("Агент успешно добавлен!");
+      }
+
+      function openAgentProfile(agentId) {
+        const agents = JSON.parse(localStorage.getItem("assassinAgents")) || [];
+        const agent = agents.find((a) => a.id === agentId);
+
+        if (!agent) return;
+
+        currentAgentId = agentId;
+        currentAgentData = { ...agent };
+
+        // Populate profile
+        agentNameInput.value = agent.name;
+        agentDescriptionInput.value = agent.description || "";
+        agentStatusSelect.value = agent.status || "waiting";
+        agentRankTitle.textContent = agent.rank;
+
+        // Find rank badge
+        const rank = ranksData.find((r) => r.name === agent.rank);
+        agentRankBadge.textContent = rank ? rank.badge : "◽️";
+
+        agentLevelDisplay.textContent = agent.level;
+
+        // Update avatar
+        profileAvatar.src =
+          agent.photo ||
+          "https://via.placeholder.com/240/073642/839496?text=???";
+        profileName.textContent = agent.name;
+
+        // Render skills
+        renderSkills();
+
+        // Switch views
+        mainView.style.display = "none";
+        profileView.style.display = "block";
+      }
+
+      function renderSkills() {
+        skillsGrid.innerHTML = "";
+
+        skillsData.forEach((skill) => {
+          const level = currentAgentData.skills[skill.id] || 0;
+          const displayLevel = Math.min(level, 10);
+          const progress = (displayLevel / 10) * 100;
+
+          const skillElement = document.createElement("div");
+          skillElement.className = "skill-item";
+          skillElement.innerHTML = `
+                    <div class="skill-header">
+                        <span class="skill-name">${skill.name}</span>
+                        <div class="skill-level">
+                            <button class="level-btn ${level === 0 ? "disabled" : ""}" data-skill="${skill.id}" data-action="decrease">-</button>
+                            <span class="current-level">${level}</span>
+                            <button class="level-btn" data-skill="${skill.id}" data-action="increase">+</button>
+                        </div>
+                    </div>
+                    <div class="skill-description">${skill.description}</div>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="width: ${progress}%"></div>
+                    </div>
+                    <div class="skill-progress-label">${displayLevel}/10</div>
+                `;
+          skillsGrid.appendChild(skillElement);
+        });
+
+        // Add event listeners to buttons
+        document.querySelectorAll(".level-btn").forEach((btn) => {
+          btn.addEventListener("click", handleSkillChange);
+          btn.addEventListener("mousedown", startHold);
+          btn.addEventListener("mouseup", stopHold);
+          btn.addEventListener("mouseleave", stopHold);
+        });
+      }
+
+      function startHold(e) {
+        if (e.target.classList.contains("disabled")) return;
+
+        const skillId = e.target.dataset.skill;
+        const action = e.target.dataset.action;
+
+        // First immediate change
+        changeSkillLevel(skillId, action);
+
+        // Then start interval
+        isHolding = true;
+        holdInterval = setInterval(() => {
+          if (isHolding) {
+            changeSkillLevel(skillId, action);
+          }
+        }, 100); // 2 times per second
+      }
+
+      function stopHold() {
+        isHolding = false;
+        if (holdInterval) {
+          clearInterval(holdInterval);
+          holdInterval = null;
+        }
+      }
+
+      function changeSkillLevel(skillId, action) {
+        const currentLevel = currentAgentData.skills[skillId] || 0;
+        const totalBalance =
+          parseInt(localStorage.getItem("totalBalance")) || 0;
+
+        if (action === "increase") {
+          const cost = currentLevel + 1;
+          if (totalBalance < cost) {
+            stopHold();
+            return;
+          }
+
+          // Spend from total balance
+          localStorage.setItem("totalBalance", totalBalance - cost);
+          currentAgentData.skills[skillId] = currentLevel + 1;
+        } else if (action === "decrease" && currentLevel > 0) {
+          // Refund to total balance
+          const refund = currentLevel;
+          localStorage.setItem("totalBalance", totalBalance + refund);
+          currentAgentData.skills[skillId] = currentLevel - 1;
+        }
+
+        // Recalculate level and rank
+        recalculateAgentStats();
+
+        // Re-render skills and update balance
+        renderSkills();
+        loadTotalBalance();
+
+        // Auto-save
+        autoSaveAgent();
+      }
+
+      function handleSkillChange(e) {
+        if (e.target.classList.contains("disabled")) return;
+
+        // If this was a click (not part of hold), handle it
+        if (!isHolding) {
+          const skillId = e.target.dataset.skill;
+          const action = e.target.dataset.action;
+          changeSkillLevel(skillId, action);
+
+          const skillName = skillsData.find((s) => s.id === skillId).name;
+          showNotification(
+            `Навык "${skillName}" ${action === "increase" ? "повышен" : "понижен"}`,
+          );
+        }
+      }
+
+      function recalculateAgentStats() {
+        // Calculate total level
+        let totalLevel = 0;
+        Object.values(currentAgentData.skills).forEach((level) => {
+          totalLevel += level;
+        });
+        currentAgentData.level = totalLevel;
+
+        // Determine rank
+        const rank = ranksData.find(
+          (r) => totalLevel >= r.minLevel && totalLevel <= r.maxLevel,
+        );
+        currentAgentData.rank = rank ? rank.name : "Рекрут";
+
+        // Update displays
+        agentLevelDisplay.textContent = totalLevel;
+        agentRankTitle.textContent = currentAgentData.rank;
+        agentRankBadge.textContent = rank ? rank.badge : "◽️";
+      }
+
+      function editAvatar() {
+        const newPhotoUrl = prompt(
+          "Введите URL фото агента:",
+          currentAgentData.photo || "",
+        );
+        if (newPhotoUrl !== null) {
+          currentAgentData.photo = newPhotoUrl.trim();
+          profileAvatar.src =
+            newPhotoUrl.trim() ||
+            "https://via.placeholder.com/240/073642/839496?text=???";
+          autoSaveAgent();
+          showNotification("Фото агента обновлено!");
+        }
+      }
+
+      function autoSaveAgent() {
+        if (isAutoSaving || !currentAgentId) return;
+
+        isAutoSaving = true;
+
+        const name = agentNameInput.value.trim();
+        const description = agentDescriptionInput.value.trim();
+        const status = agentStatusSelect.value;
+
+        if (!name) {
+          isAutoSaving = false;
+          return;
+        }
+
+        currentAgentData.name = name;
+        currentAgentData.description = description;
+        currentAgentData.status = status;
+
+        const agents = JSON.parse(localStorage.getItem("assassinAgents")) || [];
+        const index = agents.findIndex((a) => a.id === currentAgentId);
+
+        if (index !== -1) {
+          agents[index] = currentAgentData;
+          localStorage.setItem("assassinAgents", JSON.stringify(agents));
+
+          profileName.textContent = name;
+        }
+
+        setTimeout(() => {
+          isAutoSaving = false;
+        }, 500);
+      }
+
+      function copyAgentData() {
+        const agentData = {
+          name: currentAgentData.name,
+          description: currentAgentData.description,
+          skills: currentAgentData.skills,
+          level: currentAgentData.level,
+          rank: currentAgentData.rank,
+        };
+
+        const jsonString = JSON.stringify(agentData, null, 2);
+
+        navigator.clipboard
+          .writeText(jsonString)
+          .then(() => {
+            showNotification("Данные агента скопированы в буфер обмена!");
+          })
+          .catch((err) => {
+            console.error("Ошибка копирования:", err);
+            showNotification("Ошибка при копировании данных", "error");
+          });
+      }
+
+      function showNotification(message, type = "success") {
+        notification.textContent = message;
+        notification.className = "notification";
+        if (type === "error") {
+          notification.classList.add("error");
+        }
+        notification.classList.add("show");
+
+        setTimeout(() => {
+          notification.classList.remove("show");
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>
