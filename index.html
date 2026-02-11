@@ -1796,17 +1796,61 @@
       }
 
       function copyAgentData() {
-        const data = {
-          name: currentAgentData.name,
-          description: currentAgentData.description,
-          skills: currentAgentData.skills,
-          level: currentAgentData.level,
-          rank: currentAgentData.rank,
-        };
+        if (!currentAgentData) {
+          showNotification("Нет активного агента", "error");
+          return;
+        }
+
+        const config = GAME_DATA[currentTab];
+
+        // Собираем только прокачанные навыки с описаниями
+        const skillsLines = [];
+
+        config.skills.forEach((chapter) => {
+          chapter.perks.forEach((perk) => {
+            const level = currentAgentData.skills[perk.id] || 0;
+            if (level > 0) {
+              const desc = config.skillLevelDescriptions?.[perk.id]?.[level];
+              const line = `**${perk.name}**: ${level}${desc ? ` — ${desc}` : ""}`;
+              skillsLines.push(line);
+            }
+          });
+        });
+
+        // Формируем Markdown-текст
+        const md = [
+          `# ${currentAgentData.name}`,
+          ``,
+          `**Ранг**: ${currentAgentData.rank}`,
+          `**Уровень**: ${currentAgentData.level}`,
+          `**Статус**: ${currentAgentData.status === "waiting" ? "Ожидание" : "Выполняет миссию"}`,
+          ``,
+          currentAgentData.description
+            ? `**Описание**  \n${currentAgentData.description}`
+            : "",
+          ``,
+          skillsLines.length > 0
+            ? `## Навыки (${skillsLines.length})`
+            : "## Навыки (0)",
+          ...skillsLines.map((line) => `- ${line}`),
+          ``,
+          `**ID агента**: \`${currentAgentData.id}\``,
+          `**Создан**: ${new Date(currentAgentData.createdAt).toLocaleString("ru-RU")}`,
+          ``,
+          `—`.repeat(40),
+        ]
+          .filter(Boolean)
+          .join("\n");
+
         navigator.clipboard
-          .writeText(JSON.stringify(data, null, 2))
-          .then(() => showNotification("Данные скопированы"))
-          .catch(() => showNotification("Ошибка копирования", "error"));
+          .writeText(md)
+          .then(() => {
+            showNotification("Данные агента скопированы в формате Markdown");
+          })
+          .catch((err) => {
+            console.error("Ошибка копирования:", err);
+            showNotification("Не удалось скопировать данные", "error");
+          });
       }
 
       function showNotification(msg, type = "success") {
