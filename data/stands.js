@@ -1,7 +1,7 @@
 const STAND_DATA = {
   tabName: "Стэнды",
 
-  costBase: 1000,
+  costBase: 100 * 1000,
   maxLevelPerSkill: 10,
   skills: [
     {

@@ -1280,9 +1280,15 @@
     <input type="file" id="fileInput" class="file-input" accept=".json" />
     <script src="data/agents.js"></script>
     <script src="data/terminator.js"></script>
+    <script src="data/seagull.js"></script>
     <script src="data/stands.js"></script>
     <script>
-      const GAME_DATA = [AGENTS_DATA, TERMINATOR_DATA, STAND_DATA];
+      const GAME_DATA = [
+        AGENTS_DATA,
+        TERMINATOR_DATA,
+        STAND_DATA,
+        SEAGULL_DRONE_DATA,
+      ];
 
       // ==================== DOM ====================
 
@@ -1665,7 +1671,16 @@
           </div>
         </div>
         <div class="skill-description">${skill.description}</div>
-        ${levelText ? `<div class="skill-level-desc">${levelText}</div>` : ""}
+        ${
+          levelText
+            ? `<div class="skill-level-desc">
+          <details>
+            <summary>${levelText.slice(0, 200)}</summary>
+            ${levelText}
+          </details>
+          </div>`
+            : ""
+        }
         <div class="skill-progress">
           <div class="skill-progress-bar" style="width:${progress}%"></div>
         </div>
