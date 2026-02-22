@@ -1,7 +1,7 @@
 const ARMATA_PROJECT = {
   tabName: "Армата",
   treeTitle: "Проект Армата",
-  costBase: 1000,
+  costBase: 200,
   maxLevelPerSkill: 10,
   skills: [
     {
