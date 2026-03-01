@@ -1,7 +1,7 @@
 const PASSPORT_DATA = {
   tabName: "Атрибут",
   treeTitle: "Разработка Паспорта",
-  costBase: 1000,
+  costBase: 100,
   maxLevelPerSkill: 10,
   skills: [
     {

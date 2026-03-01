@@ -1,7 +1,7 @@
 const BILL_DATA = {
   tabName: "Банкноты",
   treeTitle: "Разработка банкнот",
-  costBase: 1000,
+  costBase: 100,
   maxLevelPerSkill: 10,
   skills: [
     {
