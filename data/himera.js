@@ -1,7 +1,7 @@
 const HIMERA_DATA = {
   tabName: "ЗРК «Химера»",
   treeTitle: "ЗРК «Химера»",
-  costBase: 500,
+  costBase: 100,
   maxLevelPerSkill: 10,
   skills: [
     {
