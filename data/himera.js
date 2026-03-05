@@ -1,5 +1,5 @@
-const HIMERA_PROJECT = {
-  tabName: "himera_sam",
+const HIMERA_DATA = {
+  tabName: "ЗРК «Химера»",
   treeTitle: "ЗРК «Химера»",
   costBase: 500,
   maxLevelPerSkill: 10,
@@ -82,19 +82,25 @@ const HIMERA_PROJECT = {
   ],
 
   ranks: [
-    { minLevel: 0, maxLevel: 10, name: "HIM-100", badge: "◽️" },
-    { minLevel: 11, maxLevel: 20, name: "HIM-200", badge: "⬜️⬜️" },
-    { minLevel: 21, maxLevel: 30, name: "HIM-300", badge: "⬜️⬜️⬜️" },
-    { minLevel: 31, maxLevel: 40, name: "HIM-400", badge: "🟨" },
-    { minLevel: 41, maxLevel: 50, name: "HIM-500", badge: "🟨🟨" },
-    { minLevel: 51, maxLevel: 60, name: "HIM-600", badge: "🟨🟨🟨" },
-    { minLevel: 61, maxLevel: 70, name: "HIM-700", badge: "🟨🟨\n🟨🟨" },
-    { minLevel: 71, maxLevel: 80, name: "HIM-800", badge: "🟨🟨\n🟨🟨\n🟨🟨" },
-    { minLevel: 81, maxLevel: 90, name: "HIM-900", badge: "🟥🟥\n🟥🟥\n🟥🟥" },
+    { minLevel: 0, maxLevel: 10, name: "HMR-10 (Прототип)", badge: "◽️" },
+    { minLevel: 11, maxLevel: 20, name: "HMR-100", badge: "⬜️⬜️" },
+    { minLevel: 21, maxLevel: 30, name: "HMR-200", badge: "⬜️⬜️⬜️" },
+    { minLevel: 31, maxLevel: 40, name: "HMR-300", badge: "🟨" },
+    { minLevel: 41, maxLevel: 50, name: "HMR-400", badge: "🟨🟨" },
+    { minLevel: 51, maxLevel: 60, name: "HMR-500", badge: "🟨🟨🟨" },
+    { minLevel: 61, maxLevel: 70, name: "HMR-600", badge: "🟨🟨\n🟨🟨" },
+    { minLevel: 71, maxLevel: 80, name: "HMR-700", badge: "🟨🟨\n🟨🟨\n🟨🟨" },
+    { minLevel: 81, maxLevel: 90, name: "HMR-800", badge: "🟥🟥\n🟥🟥\n🟥🟥" },
     {
       minLevel: 91,
+      maxLevel: 99,
+      name: "HMR-900",
+      badge: "⬛️⬛️\n⬛️⬛️",
+    },
+    {
+      minLevel: 100,
       maxLevel: 100,
-      name: "HIM-1000",
+      name: "HMR-1000",
       badge: "⬛️⬛️\n⬛️⬛️\n⬛️⬛️",
     },
   ],
