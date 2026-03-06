@@ -1,7 +1,7 @@
 const OVERLORD_PROJECT = {
   tabName: "Overl0rd_0x01",
   treeTitle: "Проект «Overl0rd_0x01»",
-  costBase: 1000,
+  costBase: 100,
   maxLevelPerSkill: 10,
   skills: [
     {
