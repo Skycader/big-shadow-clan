@@ -231,7 +231,7 @@ const VLK_DATA = {
     },
     {
       minLevel: 216,
-      maxLevel: 240,
+      maxLevel: 250,
       name: "VLK-9000",
       badge: "⬛️",
     },
