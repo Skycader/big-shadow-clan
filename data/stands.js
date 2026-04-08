@@ -450,7 +450,7 @@ const STAND_DATA = {
     },
     {
       minLevel: 381,
-      maxLevel: 440,
+      maxLevel: 450,
       name: "Ветхий Днями",
       badge: "🟦🟦🟦\n🟦🟦🟦\n🟦🟦🟦",
     },
